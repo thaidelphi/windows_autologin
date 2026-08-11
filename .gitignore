@@ -1,0 +1,7 @@
+*.exe
+*.o
+*.ppu
+*.compiled
+*.res
+*.bak
+*.lps
