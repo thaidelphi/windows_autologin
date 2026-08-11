@@ -1,6 +1,7 @@
 program AutoLoginCLI;
 
 {$mode objfpc}{$H+}
+{$R UAC.res}
 
 uses
   Classes, SysUtils, Registry;
