@@ -4,26 +4,27 @@
 
 ## 📌 ความต้องการของระบบ (Requirements)
 * ระบบปฏิบัติการ: Windows
-* สิทธิ์การใช้งาน: **ต้องรันด้วยสิทธิ์ Administrator เท่านั้น** (เนื่องจากมีการแก้ไข `HKEY_LOCAL_MACHINE`)
+* สิทธิ์การใช้งาน: **ต้องคลิกขวาเลือก Run as administrator เท่านั้น** (เนื่องจากมีการแก้ไข `HKEY_LOCAL_MACHINE`)
 
 ## 🚀 วิธีการใช้งาน (Usage)
 
-ดาวน์โหลดไฟล์ `AutoLoginCLI.exe` และเปิด Command Prompt (cmd) โดยคลิกขวาเลือก **Run as administrator** จากนั้นเรียกใช้คำสั่งดังนี้:
+คุณสามารถใช้งานโปรแกรมได้ 2 รูปแบบคือแบบโต้ตอบ (Interactive) และแบบผ่าน Command Line
 
-### 1. การเปิดใช้งาน Auto Login (Enable)
+### รูปแบบที่ 1: การใช้งานแบบถาม-ตอบ (Interactive Mode) - *แนะนำ!*
+เพียงแค่เปิดโปรแกรม `AutoLoginCLI.exe` ขึ้นมา (อย่าลืมคลิกขวา Run as administrator) โปรแกรมจะมีเมนูให้คุณเลือกใช้งานอย่างง่ายดาย:
+1. โปรแกรมจะถามว่าคุณต้องการ **[E]nable** (เปิด) หรือ **[D]isable** (ปิด) Auto Login
+2. หากคุณพิมพ์ `E` โปรแกรมจะถามให้คุณกรอก **Username**, **Password** และ **Domain** ทีละบรรทัด 
+
+### รูปแบบที่ 2: การใช้งานผ่าน Command Line (CLI Mode)
+เหมาะสำหรับการนำไปเขียนเป็น Script หรือ Batch file:
+
+**การเปิดใช้งาน Auto Login (Enable)**
 ```cmd
 AutoLoginCLI.exe enable <username> <password> [domain]
 ```
-* **username**: ชื่อผู้ใช้งาน Windows
-* **password**: รหัสผ่าน
-* **domain**: (ตัวเลือก) ชื่อโดเมน หรือ ชื่อคอมพิวเตอร์ (หากไม่ได้อยู่ใน Domain ให้ละเว้นไว้)
+*ตัวอย่าง:* `AutoLoginCLI.exe enable admin 123456`
 
-**ตัวอย่าง:**
-```cmd
-AutoLoginCLI.exe enable admin 123456
-```
-
-### 2. การปิดใช้งาน Auto Login (Disable)
+**การปิดใช้งาน Auto Login (Disable)**
 ```cmd
 AutoLoginCLI.exe disable
 ```
