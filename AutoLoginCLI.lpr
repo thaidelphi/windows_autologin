@@ -74,9 +74,50 @@ var
   Action: string;
   Username, Password, Domain: string;
 
+procedure CheckStatus;
+var
+  Reg: TRegistry;
+  Status, User: string;
+begin
+  Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_LOCAL_MACHINE;
+    if Reg.OpenKeyReadOnly('\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon') then
+    begin
+      if Reg.ValueExists('AutoAdminLogon') then
+        Status := Reg.ReadString('AutoAdminLogon')
+      else
+        Status := '0';
+        
+      if Status = '1' then
+      begin
+        Writeln('Current Status : [ENABLED]');
+        if Reg.ValueExists('DefaultUserName') then
+        begin
+          User := Reg.ReadString('DefaultUserName');
+          Writeln('Current User   : ', User);
+        end;
+      end
+      else
+      begin
+        Writeln('Current Status : [DISABLED]');
+      end;
+      Reg.CloseKey;
+    end
+    else
+    begin
+      Writeln('Current Status : [UNKNOWN - Cannot read registry]');
+    end;
+  finally
+    Reg.Free;
+  end;
+  Writeln('===============================');
+end;
+
 begin
   Writeln('Windows Auto Login Configurator');
   Writeln('===============================');
+  CheckStatus;
 
   if ParamCount > 0 then
   begin
