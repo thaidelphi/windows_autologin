@@ -77,15 +77,27 @@ begin
   Writeln('Windows Auto Login Configurator');
   Writeln('===============================');
 
-  if ParamCount = 0 then
+  if ParamCount > 0 then
   begin
-    Writeln('Usage:');
-    Writeln('  Enable:  AutoLoginCLI.exe enable <username> <password> [domain]');
-    Writeln('  Disable: AutoLoginCLI.exe disable');
-    Exit;
+    Action := LowerCase(ParamStr(1));
+  end
+  else
+  begin
+    Writeln('No parameters provided. Entering interactive mode.');
+    Write('Do you want to [E]nable or [D]isable Auto-Login? (E/D): ');
+    ReadLn(Action);
+    Action := LowerCase(Trim(Action));
+    
+    if (Action = 'e') or (Action = 'enable') then
+      Action := 'enable'
+    else if (Action = 'd') or (Action = 'disable') then
+      Action := 'disable'
+    else
+    begin
+      Writeln('Invalid choice. Exiting.');
+      Exit;
+    end;
   end;
-
-  Action := LowerCase(ParamStr(1));
 
   if Action = 'enable' then
   begin
@@ -97,11 +109,24 @@ begin
         Domain := ParamStr(4)
       else
         Domain := '';
-        
-      EnableAutoLogin(Username, Password, Domain);
     end
     else
-      Writeln('Error: Missing username or password parameters.');
+    begin
+      Write('Enter Username: ');
+      ReadLn(Username);
+      Write('Enter Password: ');
+      ReadLn(Password);
+      Write('Enter Domain (leave empty if none): ');
+      ReadLn(Domain);
+    end;
+    
+    if Trim(Username) = '' then
+    begin
+      Writeln('Error: Username cannot be empty.');
+      Exit;
+    end;
+      
+    EnableAutoLogin(Username, Password, Domain);
   end
   else if Action = 'disable' then
   begin
@@ -110,5 +135,8 @@ begin
   else
   begin
     Writeln('Error: Unknown action "', Action, '"');
+    Writeln('Usage:');
+    Writeln('  Enable:  AutoLoginCLI.exe enable <username> <password> [domain]');
+    Writeln('  Disable: AutoLoginCLI.exe disable');
   end;
 end.
